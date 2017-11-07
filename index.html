@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <a href='#'> 第二个链接 </a>
+    <a href='#'> 第三个链接 </a>
+    <a href='#'> 第四个链接 </a>
+    <script>
+        (function(){
+
+            var a = 6;
+            for(var i = 0; i < 3; i++){
+                setTimeout(function(){
+                    console.log(a);
+                    a = 666;
+                }, 1000);
+            }
+            a = 66;
+
+            console.log("one");
+            setTimeout(function(){
+                console.log("two");
+            }, 0);
+            console.log("three");
+
+            var test = "ai hello word";
+            var pattern = /(..)ll(.)/i;
+            if(pattern.test(test)) {
+                console.log("RegExp.input = " + RegExp.input);
+                console.log("RegExp.leftContext = " + RegExp.leftContext);
+                console.log("RegExp.rightContext = " + RegExp.rightContext);
+                console.log("RegExp.lastMatch = " + RegExp.lastMatch);
+                console.log("RegExp.lastParen = " + RegExp.lastParen);
+
+                var result = test.replace(/(..)ll(.)/g, "$1$2");
+                console.log("result = " + result);
+            }
+
+        })();
+
+        (function(){
+            //"use strict";
+
+            this.color = "red";
+
+            var obj = { color: "blue" };
+
+            function a(){
+
+                var color = "black";
+                console.log("use strict this = " + this);
+                console.log("this.color = " + this.color);
+            }
+
+            a.apply(this);
+
+            console.log(this);
+
+            var html = "<div>hello world </div>";
+
+            var result = html.replace(/[<>/]/g, function(match, pos, originText){
+                console.log(pos);
+                console.log(originText);
+                switch (match){
+                    case "<" :
+                        return "&lt;";
+                    case ">" :
+                        return "&gt;";
+                    case "/" :
+                        return "&quot;";
+                }
+            });
+
+            console.log(result);
+
+        })();
+
+        (function(){
+            window.val = 1;
+
+            var json = {
+                val: 10,
+                dbl: function(){
+                    this.val *= 2;
+                }
+            };
+
+            json.dbl();
+
+            var dbl = json.dbl;
+
+            dbl();
+
+            json.dbl.call(window);
+
+            console.log(window.val + json.val);
+
+        })();
+
+        (function(){
+
+            var val = 1;
+
+            var json = {
+
+                val: 10,
+
+                dbl: function(){
+                    val *= 2;
+                }
+            };
+
+            json.dbl();
+
+            console.log(json.val + val);
+
+        })();
+
+        (function(){
+
+            var a = 1;
+
+            function func(){
+
+                console.log("inner a = " + a);
+
+                var a = 2;
+            }
+
+            func();
+
+            console.log("outer a = " + a);
+
+        })();
+
+        (function(){
+
+            var foo;
+
+            var foo = function(){
+
+            };
+            console.log(foo);
+
+            var getName = function () { console.log(4);};
+
+            function getName() { console.log(5);}
+
+            getName();
+
+        })();
+
+        (function(){
+            //"use strict";
+            function A(){
+                console.log(this);
+            }
+            A.call(null);   //严格模式下 call apply 传入作用域为null或者undefined后 this获得对应的null或者undefined, 非严格模式下this获得的值为window
+            A.call(undefined);
+            console.log(typeof A);
+            console.log(A instanceof Object);
+
+
+            var z = x = "test";
+
+        })();
+
+        /*console.log(x);
+        console.log(" z = " + z);*/
+
+        //TODO Number类型 toFixed toExponential toPrecision
+
+        //TODO String类型 length String charAt charCodeAt "test"[1] (es5) concat + slice substring substr(第二个参数是长度) indexOf("1", 6) lastIndexOf("1", 6) -1
+        //TODO trim() toLowerCase toUpperCase toLocaleLowerCase toLocaleUpperCase localeCompare fromCharCode
+        //TODO 模式匹配方法  match(正则表达式||RegExp对象）与RegExp的exec得到的结果相同 search replace split
+
+        (function(){
+
+            function fun1(){
+
+                var n = 99;
+
+                nAdd = function(){
+                    this.n += 1;
+                    console.log(this.n);
+                };
+
+                function func2(){
+                    console.log(n);
+                }
+
+                return func2;
+            }
+
+            var result = fun1();
+
+            result();
+
+            nAdd();
+
+            result();
+
+        })();
+
+        (function(){
+            var obj = {
+                name: "obj",
+                dose: function(){
+                    this.name = "function";
+                    return function(){
+                        return this.name;
+                    }
+                }
+            };
+
+            console.log("obj.dose().call(this) = " + obj.dose().call(this));
+
+            function Animal(){
+                this.name = "name";
+                this.eat = function(){
+                    console.log("i want to eat");
+                };
+            }
+
+            function Person(){
+            }
+
+            Person.prototype = new Animal();
+            var person = new Person();
+            person.eat();
+
+        })();
+
+        (function(){
+            <!-- 实现一段脚本，使得点击对应链接alert出相应的编号 -->
+            let lis = document.links, len = lis.length, i;
+            for(i = 0; i < len; i++) {
+                (function(i) {
+                    lis[i].onclick = function(event) {
+                        event.preventDefault();
+                        alert(i + 1);
+                    };
+                })(i);
+            }
+        })();
+
+        //TODO 如何将浮点数点左边的数每三位添加一个逗号，如12000000.11转化为『12,000,000.11』?
+        (function(){
+            function commafy(num){
+                return num && num
+                .toString()
+                .replace(/(\d)(?=(\d{3})+\.)/g, function($1, $2){
+                    return $2 + ',';
+                });
+            }
+            console.log(commafy(1111129.12));
+        })();
+
+
+
+
+    </script>
+</body>
+</html>
